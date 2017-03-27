@@ -50,11 +50,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                               KC_ENT,
                                    LT(LEFT,KC_SPC), KC_BSPC,  KC_DEL,
         // right hand
-        TG(META),     KC_7,    KC_8,     KC_9,    KC_0,    KC_MINS,          JA_HAT,
-        TG(SYMB),     KC_Y,    KC_U,     KC_I,    KC_O,    KC_P,             JA_AT,
-                      KC_H,    KC_J,     KC_K,    KC_L,    KC_SCLN,          CTL_T(JA_CLON),
-        KC_B,         KC_N,    KC_M,     KC_COMM, KC_DOT,  KC_SLSH,          SFT_T(JA_ENUN),
-                               KC_LANG1, JA_LBRC, JA_RBRC, S(JA_ENVL),       LT(SYMB, KC_NO),
+        TG(META),     KC_7,    KC_8,     KC_9,    KC_0,    KC_MINS,   JA_HAT,
+        TG(SYMB),     KC_Y,    KC_U,     KC_I,    KC_O,    KC_P,      JA_AT,
+                      KC_H,    KC_J,     KC_K,    KC_L,    KC_SCLN,   CTL_T(JA_CLON),
+        KC_B,         KC_N,    KC_M,     KC_COMM, KC_DOT,  KC_SLSH,   SFT_T(JA_ENUN),
+                               KC_LANG1, JA_LBRC, JA_RBRC, JA_ENVL,   LT(SYMB, KC_NO),
              KC_LEFT,          KC_RGHT,
              KC_UP,
              KC_DOWN, KC_BSPC, KC_ENT
