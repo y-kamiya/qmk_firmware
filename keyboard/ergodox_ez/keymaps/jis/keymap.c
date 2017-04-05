@@ -15,6 +15,9 @@
 #define JA_LBRC KC_RBRC  // [ and {
 #define JA_RBRC KC_BSLS  // ] and }
 
+#define SFT_T_CUSTOM 0x7101
+
+
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 /* Keymap 0: Basic layer
  *
@@ -53,7 +56,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         TG(META),     KC_7,    KC_8,     KC_9,    KC_0,    KC_MINS,   JA_HAT,
         TG(SYMB),     KC_Y,    KC_U,     KC_I,    KC_O,    KC_P,      JA_AT,
                       KC_H,    KC_J,     KC_K,    KC_L,    KC_SCLN,   CTL_T(JA_CLON),
-        KC_B,         KC_N,    KC_M,     KC_COMM, KC_DOT,  KC_SLSH,   SFT_T(JA_ENUN),
+        KC_B,         KC_N,    KC_M,     KC_COMM, KC_DOT,  KC_SLSH,   SFT_T_CUSTOM,
                                KC_LANG1, JA_LBRC, JA_RBRC, JA_ENVL,   LT(SYMB, KC_NO),
              KC_LEFT,          KC_RGHT,
              KC_UP,
@@ -214,4 +217,29 @@ void matrix_scan_user(void) {
             break;
     }
 
+};
+
+// referred to here
+// https://github.com/qmk/qmk_firmware/issues/303#issuecomment-226953094
+bool sft_t_interrupted = false;
+
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    switch(keycode) {
+        case SFT_T_CUSTOM:
+            if (record->event.pressed) {
+              sft_t_interrupted = false;
+              register_code(KC_LSFT);
+            } else {
+              unregister_code(KC_LSFT);
+              if (!sft_t_interrupted) {
+                register_code(JA_ENUN);
+                unregister_code(JA_ENUN);
+              }
+            }
+            return false;
+            break;
+        default:
+            sft_t_interrupted = true;
+            break;
+    }
 };
