@@ -30,13 +30,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |--------+------+------+------+------+------| Hyper|           |   B  |------+------+------+------+------+--------|
  * | LShift |   Z  |   X  |   C  |   V  |   B  |      |           |      |   N  |   M  |   ,  |   .  |   /  | _ / S  |
  * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
- *   | L1   |      |  ESC | LALT |La2/GUI|                                      |  La1 |   [  |   ]  |   |  |   L1   |
+ *   |tmp L1|tmp L2|  ESC | LALT |La2/GUI|                                      |  La1 |   [  |   ]  |   |  | tmp L1 |
  *   `-----------------------------------'                                       `------------------------------------'
  *                                        ,-------------.       ,--------------.
  *                                        | App  |ESC   |       | LEFT | RIGHT  |
  *                                 ,------|------|------|       |------+--------+------.
- *                                 |      |      |Enter |       | UP   | Back   |      |
- *                                 | Space|Backsp|------|       |------| Space  |Enter |
+ *                                 |      |      |Enter |       | UP   |        |      |
+ *                                 | Space|Backsp|------|       |------| RShift |Enter |
  *                                 |      |ace   | DEL  |       | DOWN |        |      |
  *                                 `--------------------'       `----------------------'
  */
@@ -44,14 +44,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // Otherwise, it needs KC_*
 [BASE] = KEYMAP(  // layer 0 : default
         // left hand
-        KC_1,           KC_2,         KC_3,   KC_4,   KC_5,   KC_6,   KC_ESC,
-        KC_TAB,         KC_Q,         KC_W,   KC_E,   KC_R,   KC_T,   KC_ENT,
-        KC_LCTL,        KC_A,         KC_S,   KC_D,   KC_F,   KC_G,
-        KC_LSFT,        KC_Z,         KC_X,   KC_C,   KC_V,   KC_B,   ALL_T(KC_NO),
-        LT(SYMB,KC_NO), KC_NO,        KC_ESC, KC_LALT,GUI_T(KC_LANG2),
-                                                    KC_APP,   KC_ESC,
-                                                              KC_ENT,
-                                            KC_SPC, KC_BSPC,  KC_DEL,
+        KC_1,           KC_2,           KC_3,   KC_4,   KC_5,   KC_6,   KC_ESC,
+        KC_TAB,         KC_Q,           KC_W,   KC_E,   KC_R,   KC_T,   KC_ENT,
+        KC_LCTL,        KC_A,           KC_S,   KC_D,   KC_F,   KC_G,
+        KC_LSFT,        KC_Z,           KC_X,   KC_C,   KC_V,   KC_B,   ALL_T(KC_NO),
+        LT(SYMB,KC_NO), LT(META,KC_NO), KC_ESC, KC_LALT,GUI_T(KC_LANG2),
+                                                                        KC_APP,   KC_ESC,
+                                                                                  KC_ENT,
+                                                                KC_SPC, KC_BSPC,  KC_DEL,
         // right hand
         TG(META),     KC_7,    KC_8,     KC_9,    KC_0,    KC_MINS,   JA_HAT,
         TG(SYMB),     KC_Y,    KC_U,     KC_I,    KC_O,    KC_P,      JA_AT,
@@ -60,7 +60,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                KC_LANG1, JA_LBRC, JA_RBRC, JA_ENVL,   LT(SYMB, KC_NO),
              KC_LEFT,          KC_RGHT,
              KC_UP,
-             KC_DOWN, KC_BSPC, KC_ENT
+             KC_DOWN, KC_RSFT, KC_ENT
     ),
 /* Keymap 1: Symbol Layer
  *
@@ -221,23 +221,25 @@ void matrix_scan_user(void) {
 
 // referred to here
 // https://github.com/qmk/qmk_firmware/issues/303#issuecomment-226953094
+// http://qiita.com/teri_yakichan/items/db54589b67ba9330faed#-%E6%8A%BC%E4%B8%8B%E6%99%82%E9%96%93%E3%81%A7%E5%87%A6%E7%90%86%E5%86%85%E5%AE%B9%E3%82%92%E5%A4%89%E3%81%88%E3%82%8B
 bool sft_t_interrupted = false;
+uint16_t shift_timer = 0.0f;
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch(keycode) {
         case SFT_T_CUSTOM:
             if (record->event.pressed) {
-              sft_t_interrupted = false;
-              register_code(KC_LSFT);
+                sft_t_interrupted = false;
+                shift_timer = timer_read();
+                register_code(KC_LSFT);
             } else {
-              unregister_code(KC_LSFT);
-              if (!sft_t_interrupted) {
-                register_code(JA_ENUN);
-                unregister_code(JA_ENUN);
-              }
+                unregister_code(KC_LSFT);
+                if (!sft_t_interrupted && timer_elapsed(shift_timer) < 150) {
+                  register_code(JA_ENUN);
+                  unregister_code(JA_ENUN);
+                }
             }
             return false;
-            break;
         default:
             sft_t_interrupted = true;
             break;
