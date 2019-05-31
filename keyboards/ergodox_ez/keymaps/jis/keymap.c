@@ -1,6 +1,5 @@
-#include "ergodox_ez.h"
-#include "debug.h"
-#include "action_layer.h"
+#include QMK_KEYBOARD_H
+#include "version.h"
 
 #define BASE 0 // default layer
 #define SYMB 1 // symbols and media keys
@@ -42,7 +41,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  */
 // If it accepts an argument (i.e, is a function), it doesn't need KC_.
 // Otherwise, it needs KC_*
-[BASE] = KEYMAP(  // layer 0 : default
+[BASE] = LAYOUT_ergodox(  // layer 0 : default
         // left hand
         KC_1,           KC_2,           KC_3,   KC_4,   KC_5,   KC_6,   KC_ESC,
         KC_TAB,         KC_Q,           KC_W,   KC_E,   KC_R,   KC_T,   KC_ENT,
@@ -84,7 +83,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                                 `--------------------'       `--------------------'
  */
 // SYMBOLS
-[SYMB] = KEYMAP(
+[SYMB] = LAYOUT_ergodox(
        // left hand
        KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_TRNS,
        KC_TRNS, KC_TRNS, KC_TRNS, KC_MS_U, KC_TRNS, KC_TRNS, KC_TRNS,
@@ -126,7 +125,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                                 `--------------------'       `--------------------'
  */
 // META
-[META] = KEYMAP(
+[META] = LAYOUT_ergodox(
        RESET,   KC_TRNS, KC_TRNS, KC_TRNS, KC_MUTE, KC_VOLD, KC_VOLU,
        KC_TRNS, KC_TRNS, KC_UP,   KC_END,  KC_TRNS, KC_TRNS, KC_TRNS,
        KC_ENT , KC_HOME, KC_DOWN, KC_RGHT, KC_MYCM, KC_H,
@@ -146,7 +145,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
        S(LCTL(KC_ESC)), LALT(LCTL(KC_DEL)), KC_TRNS
 ),
 // LEFT
-[LEFT] = KEYMAP(
+[LEFT] = LAYOUT_ergodox(
        JA_HAT,  KC_MINS, KC_0,    KC_9,    KC_8,    KC_7,    KC_6,
        JA_AT,   KC_P,    KC_O,    KC_I,    KC_U,    KC_Y,    KC_TRNS,
        JA_CLON, KC_SCLN, KC_L,    KC_K,    KC_J,    KC_H,
