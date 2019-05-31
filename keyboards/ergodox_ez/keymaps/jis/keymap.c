@@ -28,7 +28,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
  * | Ctrl   |   A  |   S  |   D  |   F  |   G  |------|           |------|   H  |   J  |   K  |   L  |   ;  |: * / C |
  * |--------+------+------+------+------+------| Hyper|           |   B  |------+------+------+------+------+--------|
- * | LShift |   Z  |   X  |   C  |   V  |   B  |      |           |      |   N  |   M  |   ,  |   .  |   /  | _ / S  |
+ * | LShift |   Z  |   X  |   C  |   V  |   B  |      |           |      |   N  |   M  |   ,  |   .  |   /  |   _    |
  * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
  *   |tmp L1|tmp L2|  ESC | LALT |La2/GUI|                                      |  La1 |   [  |   ]  |   |  | tmp L1 |
  *   `-----------------------------------'                                       `------------------------------------'
@@ -56,7 +56,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         TG(META),     KC_7,    KC_8,     KC_9,    KC_0,    KC_MINS,   JA_HAT,
         TG(SYMB),     KC_Y,    KC_U,     KC_I,    KC_O,    KC_P,      JA_AT,
                       KC_H,    KC_J,     KC_K,    KC_L,    KC_SCLN,   CTL_T(JA_CLON),
-        KC_B,         KC_N,    KC_M,     KC_COMM, KC_DOT,  KC_SLSH,   SFT_T_CUSTOM,
+        KC_B,         KC_N,    KC_M,     KC_COMM, KC_DOT,  KC_SLSH,   KC_UNDS,
                                KC_LANG1, JA_LBRC, JA_RBRC, JA_ENVL,   LT(SYMB, KC_NO),
              KC_LEFT,          KC_RGHT,
              KC_UP,
@@ -244,4 +244,5 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             sft_t_interrupted = true;
             break;
     }
+    return true;
 };
